@@ -1,5 +1,11 @@
 #include <stdio.h>
-#include <windows.h>
+
+#ifdef _WIN32
+    #include <windows.h>
+#elif __linux__
+    #include <sys/sysinfo.h>
+    #include <sys/statvfs.h>
+#endif
 
 void printaBarra(double memoriaPorcentUso) // passa de parametro
 {
@@ -9,13 +15,11 @@ void printaBarra(double memoriaPorcentUso) // passa de parametro
 
     printf("RAM [");
 
-    for (int i = 0; i < blocos; i++)
-    {
+    for (int i = 0; i < blocos; i++){
         printf("|");
     }
 
-    for (int i = blocos; i < valor; i++)
-    {
+    for (int i = blocos; i < valor; i++){
         printf("-");
     }
 
@@ -27,17 +31,14 @@ void informaMemoria()
     MEMORYSTATUSEX memoryInfo;
     memoryInfo.dwLength = sizeof(memoryInfo);
 
-    if (!GlobalMemoryStatusEx(&memoryInfo))
-    {
+    if (!GlobalMemoryStatusEx(&memoryInfo)) {
 
         printf("Erro ao consultar a memoria.\n");
         return;
     }
 
     DWORDLONG memoriaTotal = memoryInfo.ullTotalPhys; // para pegar a memoria fisica total
-
     DWORDLONG memoriaLivre = memoryInfo.ullAvailPhys; // para pegar a memoria fisica total disponivel em bytes
-
     DWORDLONG memoriaUsada = memoriaTotal - memoriaLivre; // calculo da memoria usada
 
     // calculo pra converter pra GB(são 3 veze para pular 3 casa  ->KB-> MB->GB)
@@ -63,8 +64,6 @@ void informaMemoria()
 
     printf("Digite ctrl + c para finalizar o programa \n");
 }
-
-// método para printar a barra do quanto ela esta ocupada: RAM [██████████████░░░░░░] 70% -> exemplo tirado do claude
 
 int main()
 {
