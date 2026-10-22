@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define MAX_CPUS 1   // só o total ("cpu"); aumente para ler também cpu0, cpu1...
+#define MAX_CPUS 1   // só o total cpu aumente para ler também cpu0, cpu1
 
 typedef struct {
     unsigned long long user, nice, system, idle;
@@ -64,7 +64,7 @@ void printaBarra(double cpuPorcentUso) {
     printf("] %.2f%%\n", cpuPorcentUso);
 }
 
-int main(void) {
+int main() {
     CpuTimes antes[MAX_CPUS];
     CpuTimes depois[MAX_CPUS];
 
